@@ -25,13 +25,17 @@ Destroy a cluster:
 1. Oracle JDK 1.8
 
 # Tips
+## Boot2docker users
+
+Install `bash.tcz` with `tce-ab` command as `bash` is missing by default.
+
 ## How to customize
 
 Replace `localhost:5000/inventit` in all the files within this project with your own tag, e.g. `localhost:5000:acme` if you'd like to use your [private registry](http://blog.docker.com/2013/07/how-to-use-your-own-registry/).
 
 Replace `MAINTAINER` value as well.
 
-## How to brose Storm UI
+## How to browse Storm UI
 
 Open `http://HOST:49080` with your browser. The `HOST` will be identified `boot2docker ip` if you're running Docker on Boot2docker.
 `49080` is can be changed as it is described in `start-strom.sh`.
