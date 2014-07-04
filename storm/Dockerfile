@@ -1,10 +1,25 @@
 FROM ubuntu
 
-MAINTAINER Wurstmeister 
+MAINTAINER Inventit Inc.
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise universe" >> /etc/apt/sources.list; apt-get update; apt-get install -y unzip  openjdk-6-jdk wget supervisor
-RUN wget -q -N http://mirror.ox.ac.uk/sites/rsync.apache.org/incubator/storm/apache-storm-0.9.1-incubating/apache-storm-0.9.1-incubating.zip; unzip -o /apache-storm-0.9.1-incubating.zip -d /usr/share/; rm apache-storm-0.9.1-incubating.zip
-ENV STORM_HOME /usr/share/apache-storm-0.9.1-incubating
+ENV STORM_VERSION 0.9.2
+ENV STORM_HOME /usr/share/apache-storm-$STORM_VERSION-incubating
+
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise universe" >> /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y unzip wget supervisor
+
+# for add-apt-repository, http://stackoverflow.com/a/13018671
+RUN apt-get install -y software-properties-common python-software-properties
+# Java8 http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html
+RUN add-apt-repository -y ppa:webupd8team/java
+RUN apt-get update
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+RUN apt-get install -y oracle-java8-installer
+
+# Apache Storm
+RUN wget -q -N  http://www.us.apache.org/dist/incubator/storm/apache-storm-$STORM_VERSION-incubating/apache-storm-$STORM_VERSION-incubating.zip
+RUN unzip -o /apache-storm-$STORM_VERSION-incubating.zip -d /usr/share/; rm apache-storm-$STORM_VERSION-incubating.zip
 RUN groupadd storm; useradd --gid storm --home-dir /home/storm --create-home --shell /bin/bash storm; chown -R storm:storm $STORM_HOME; mkdir /var/log/storm ; chown -R storm:storm /var/log/storm
 RUN ln -s $STORM_HOME/bin/storm /usr/bin/storm  
 

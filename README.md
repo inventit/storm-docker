@@ -18,3 +18,33 @@ Destroy a cluster:
 ##Building
 
 - ```rebuild.sh```
+
+## Installed Software
+
+1. Apache Storm 0.9.2
+1. Oracle JDK 1.8
+
+# Tips
+## How to customize
+
+Replace `localhost:5000/inventit` in all the files within this project with your own tag, e.g. `localhost:5000:acme` if you'd like to use your [private registry](http://blog.docker.com/2013/07/how-to-use-your-own-registry/).
+
+Replace `MAINTAINER` value as well.
+
+## How to brose Storm UI
+
+Open `http://HOST:49080` with your browser. The `HOST` will be identified `boot2docker ip` if you're running Docker on Boot2docker.
+`49080` is can be changed as it is described in `start-strom.sh`.
+
+The log viewer UI is listening to the port `49000`.
+
+## How to deploy your topology
+
+At first, intstall Apache Storm on your host machine and make sure `storm` command works.
+
+After creating your topology and building it, run the following command.
+
+    storm jar path/to/your/topology.jar fqdn.of.your.TopologyMainClass -c nimbus.host=HOST -c nimbus.thrift.port=49627
+
+`49627` is can be changed as it is described in `start-strom.sh`.
+

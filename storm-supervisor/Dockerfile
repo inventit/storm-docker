@@ -1,5 +1,5 @@
-FROM wurstmeister/storm:0.9.1
-MAINTAINER Wurstmeister
+FROM localhost:5000/inventit/storm
+MAINTAINER Inventit Inc.
 
 EXPOSE 6700
 EXPOSE 6701
