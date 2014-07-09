@@ -1,9 +1,16 @@
 storm-docker
 ============
 
-Dockerfiles for building a storm cluster. Inspired by [https://github.com/ptgoetz/storm-vagrant](https://github.com/ptgoetz/storm-vagrant)
+This project is forked from `https://github.com/wurstmeister/storm-docker`.
 
-The images are available directly from [https://index.docker.io](https://index.docker.io)
+The differences are
+
+1. Installed software versions
+1. LogStash integration
+1. Shared data volume container
+1. Running as root because of sharing the volume
+1. Running with LogStash, Elastic Search and Kibana
+1. Boot2docker helper shell
 
 ##Usage
 
@@ -18,6 +25,8 @@ Destroy a cluster:
 ##Building
 
 - ```rebuild.sh```
+
+Note that LogStash/ElasticSearch/Kibana container is NOT included as it is always downloaded from [Docker-Hub](https://hub.docker.com/).
 
 ## Installed Software
 
@@ -48,7 +57,11 @@ At first, intstall Apache Storm on your host machine and make sure `storm` comma
 
 After creating your topology and building it, run the following command.
 
-    storm jar path/to/your/topology.jar fqdn.of.your.TopologyMainClass -c nimbus.host=HOST -c nimbus.thrift.port=49627
+    storm jar path/to/your/topology.jar fqdn.of.your.TopologyMainClass \
+      -c nimbus.host=HOST -c nimbus.thrift.port=49627
 
-`49627` is can be changed as it is described in `start-strom.sh`.
+The thrift port `49627` can be changed as it is described in `start-strom.sh`.
 
+## How to browse Storm logs with Kibana
+
+Open `http://HOST:9292` and you can see the Kibana dashboard.
