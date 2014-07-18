@@ -11,6 +11,7 @@ The differences are
 1. Running as root because of sharing the volume
 1. Running with LogStash, Elastic Search and Kibana
 1. Boot2docker helper shell
+1. Memcached container support
 
 ##Usage
 
@@ -36,7 +37,13 @@ Note that LogStash/ElasticSearch/Kibana container is NOT included as it is alway
 # Tips
 ## Boot2docker users
 
-Install `bash.tcz` with `tce-ab` command as `bash` is missing by default.
+Run `ntpclient` whenever you suspend your machine or boot2docker instance.
+
+    $ sudo ntpclient -s -h time.asia.apple.com
+
+Install `bash.tcz` as `bash` is missing by default.
+
+    $ tce-load -wi bash.tcz
 
 ## How to customize
 
@@ -46,8 +53,8 @@ Replace `MAINTAINER` value as well.
 
 ## How to browse Storm UI
 
-Open `http://HOST:49080` with your browser. The `HOST` will be identified `boot2docker ip` if you're running Docker on Boot2docker.
-`49080` is can be changed as it is described in `start-strom.sh`.
+Open `http://HOST:49080` with your browser. The `HOST` will be identified by `boot2docker ip` if you're running Docker on Boot2docker.
+`49080` can be changed as it is described in `start-strom.sh`.
 
 The log viewer UI is listening to the port `49000`.
 
@@ -65,3 +72,10 @@ The thrift port `49627` can be changed as it is described in `start-strom.sh`.
 ## How to browse Storm logs with Kibana
 
 Open `http://HOST:9292` and you can see the Kibana dashboard.
+
+## How to use Memcached
+
+The supertvisor node is already linking to the memcached container. You can access the `memcached1` container with the following environment variables from your Spouts, Bolts or Trident States.
+
+1. `MEMCACHED1_PORT_11211_TCP_ADDRESS` for IP address
+1. `MEMCACHED1_PORT_11211_TCP_PORT` for TCP port

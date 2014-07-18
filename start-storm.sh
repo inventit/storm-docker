@@ -30,6 +30,11 @@ docker run -d \
   -e LOGSTASH_CONFIG_URL=https://gist.githubusercontent.com/dbaba/c409799a9d1e1703e4d1/raw/logstash.conf \
   pblittle/docker-logstash
 
+# Memcached
+docker run -d \
+  --name memcached1 \
+  tutum/memcached
+
 # Storm Nimbus Node
 docker run -d \
   --volumes-from data \
@@ -48,6 +53,7 @@ docker run -d \
   --name supervisor \
   --link nimbus:nimbus \
   --link zookeeper:zk \
+  --link memcached1:memcached1 \
   -h supervisor \
   $PREFIX/storm-supervisor
 
